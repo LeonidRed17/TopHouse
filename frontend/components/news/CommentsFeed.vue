@@ -1,4 +1,6 @@
 <template>
+  {{console.log(comment) }}
+
   <div class="row justify-content-center">
     <div class="col-12 col-xl-8 mt-4 bg-white">
       <h4 class="card-title text-center mt-3">Последние комментарии:</h4>
@@ -20,7 +22,7 @@ export default {
   },
   props: {
     comment: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },

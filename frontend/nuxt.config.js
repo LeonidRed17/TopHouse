@@ -22,8 +22,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    {src: '~/node_modules/bootstrap/dist/css/bootstrap.min.css'},
-    {src: '~/node_modules/bootstrap-icons/font/bootstrap-icons.css'}
+    { src: '~/node_modules/bootstrap/dist/css/bootstrap.min.css' },
+    { src: '~/node_modules/bootstrap-icons/font/bootstrap-icons.css' }
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -40,7 +40,12 @@ export default {
   ],
 
   proxy: {
-    '/api': 'http://localhost',  // Адрес вашего Laravel API
+    '/api/': {
+      target: 'http://127.0.0.1:8000', // Laravel API
+      pathRewrite: { '^/api/': '/api/' }, // Фикс пути
+      changeOrigin: true,
+      secure: false, // Если HTTPS не настроен
+    },
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -49,7 +54,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['bootstrap'], 
+    transpile: ['bootstrap'],
   },
 
   compatibilityDate: '2025-02-18'

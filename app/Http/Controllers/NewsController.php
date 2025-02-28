@@ -12,7 +12,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //return News::all(); // Получение всех записей
+        //return News::all();
 
         $news = News::with([
             'reactions',
@@ -36,7 +36,32 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'title' => 'required|string|min:3',
+            'content' => 'required|string|min:30',
+            'author' => 'required|string|min:3',
+            'category_Id' => 'required|exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('news_images', 'public');
+        } else {
+            $imagePath = null; 
+        }
+
+        $news = new News();
+        $news->title = $request->input('title');
+        $news->content = $request->input('content');
+        $news->author = $request->input('author');
+        $news->category_id = $request->input('category_Id');
+        $news->img = $imagePath; 
+        $news->save();
+
+        return response()->json([
+            'message' => 'Новость успешно добавлена',
+        ]);
     }
 
     /**
